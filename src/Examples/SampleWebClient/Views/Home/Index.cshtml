@@ -1,0 +1,41 @@
+﻿@model SampleWebClient.Models.HomeModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Sample Ninject.Extensions.Wcf.Client Usage</title>
+    </head>
+    <body>
+        <p>
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+            {
+                @Html.Label("intValue", "Int: ")
+                @Html.TextBox("intValue", "")
+                <br/>
+                @Html.Label("boolValue", "Bool: ")
+                @Html.CheckBox("boolValue")
+                <br/>
+                @Html.Label("stringValue", "String: ")
+                @Html.TextBox("stringValue", "")
+                <br/>
+                <input type="submit"/>
+            }
+        </p>
+        <p>
+            @if (Model.Response1 != null)
+            {
+                @Model.Response1
+            }
+            <br/>
+            @if (Model.Response2 != null)
+            {
+                @Model.Response2.StringValue
+            }
+        </p>
+    </body>
+</html>
