@@ -33,7 +33,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
-            this IBindingToSyntax<TContract> bindingSyntax)
+            this IBindingToSyntax<TContract> bindingSyntax) where TContract : class
         {
             return ToServiceChannel(bindingSyntax, "*");
         }
@@ -48,7 +48,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax,
-            string endpointConfigurationName)
+            string endpointConfigurationName) where TContract : class
         {
             ThrowIfNull(endpointConfigurationName, "endpointConfigurationName");
 
@@ -69,7 +69,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax,
-            string endpointConfigurationName, EndpointAddress remoteAddress)
+            string endpointConfigurationName, EndpointAddress remoteAddress) where TContract : class
         {
             ThrowIfNull(endpointConfigurationName, "endpointConfigurationName");
             ThrowIfNull(remoteAddress, "remoteAddress");
@@ -90,7 +90,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax,
-            Binding binding)
+            Binding binding) where TContract : class
         {
             ThrowIfNull(binding, "binding");
 
@@ -111,7 +111,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax,
-            Binding binding, string remoteAddress)
+            Binding binding, string remoteAddress) where TContract : class
         {
             ThrowIfNull(binding, "binding");
             ThrowIfNull(remoteAddress, "remoteAddress");
@@ -133,7 +133,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax,
-            Binding binding, EndpointAddress remoteAddress)
+            Binding binding, EndpointAddress remoteAddress) where TContract : class
         {
             ThrowIfNull(binding, "binding");
             ThrowIfNull(remoteAddress, "remoteAddress");
@@ -154,7 +154,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax,
-            ServiceEndpoint endpoint)
+            ServiceEndpoint endpoint) where TContract : class
         {
             ThrowIfNull(endpoint, "endpoint");
 
@@ -164,14 +164,14 @@ namespace Ninject.Extensions.Wcf.Client
         }
 
         private static IBindingWhenInNamedWithOrOnSyntax<TContract> BindChannel<TContract>(
-            IBindingToSyntax<TContract> bindingSyntax, Func<IBindingMetadata, bool> constraint)
+            IBindingToSyntax<TContract> bindingSyntax, Func<IBindingMetadata, bool> constraint) where TContract : class
         {
             return bindingSyntax.ToMethod(x => bindingSyntax.Kernel.Get<ChannelFactory<TContract>>(constraint).CreateChannel());
         }
 
         private static void BindChannelFactory<TContract>(IBindingToSyntax<TContract> bindingSyntax, Binding binding,
                                                           ServiceEndpoint endpoint, string endpointConfigurationName,
-                                                          EndpointAddress remoteAddress, string remoteAddressStr)
+                                                          EndpointAddress remoteAddress, string remoteAddressStr) where TContract : class
         {
             var factoryBinding = bindingSyntax.Kernel.Bind<ChannelFactory<TContract>>().ToSelf().InSingletonScope();
             AddParam(factoryBinding, "binding", binding);
@@ -182,7 +182,7 @@ namespace Ninject.Extensions.Wcf.Client
         }
 
         private static void AddParam<TContract>(IBindingNamedWithOrOnSyntax<ChannelFactory<TContract>> factoryBinding,
-                                                string paramName, object paramValue)
+                                                string paramName, object paramValue) where TContract : class
         {
             if (paramValue != null)
             {
