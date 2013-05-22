@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWebClient", "Examples
 		{91EAA541-7B7B-4152-996E-C0A32523E8DD} = {91EAA541-7B7B-4152-996E-C0A32523E8DD}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ninject.Extensions.Wcf.Client.Test", "Ninject.Extensions.Wcf.Client.Test\Ninject.Extensions.Wcf.Client.Test.csproj", "{1F5586DC-9F72-4B94-AB24-A4BAE7B702E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{7EC63874-D206-4FB4-AF1E-26A74B1AE9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EC63874-D206-4FB4-AF1E-26A74B1AE9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EC63874-D206-4FB4-AF1E-26A74B1AE9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F5586DC-9F72-4B94-AB24-A4BAE7B702E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F5586DC-9F72-4B94-AB24-A4BAE7B702E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F5586DC-9F72-4B94-AB24-A4BAE7B702E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F5586DC-9F72-4B94-AB24-A4BAE7B702E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

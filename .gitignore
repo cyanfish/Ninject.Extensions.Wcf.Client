@@ -9,3 +9,4 @@ build
 *.user
 /src/packages
 *.licenseheader
+*TestResult.xml
