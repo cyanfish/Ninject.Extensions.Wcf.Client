@@ -1,4 +1,19 @@
-﻿using System;
+﻿// 
+// Copyright (c) 2013 Ben Olden-Cooligan
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+//     http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -15,7 +30,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// Indicates that the service should be bound to a WCF service channel using the endpoint declared in the Web.config or App.config file.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;T&gt;().</param>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax)
@@ -27,7 +42,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// Indicates that the service should be bound to a WCF service channel using the endpoint declared in the Web.config or App.config file with the given name.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;T&gt;().</param>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <param name="endpointConfigurationName">The configuration name used for the endpoint.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="endpointConfigurationName"/> is null.</exception>
         /// <returns>The fluent syntax;</returns>
@@ -47,7 +62,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// Indicates that the service should be bound to a WCF service channel using given endpoint address and the binding of the endpoint declared in the Web.config or App.config file with the given name.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;T&gt;().</param>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <param name="endpointConfigurationName">The configuration name used for the endpoint.</param>
         /// <param name="remoteAddress">The <see cref="T:System.ServiceModel.EndpointAddress"/> that provides the location of the service.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="endpointConfigurationName"/> or <paramref name="remoteAddress"/> is null.</exception>
@@ -69,7 +84,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// Indicates that the service should be bound to a WCF service channel using the given binding and the endpoint declared in the Web.config or App.config file.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;T&gt;().</param>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <param name="binding">The <see cref="T:System.ServiceModel.Channels.Binding"/> used to configure the endpoint.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="binding"/> is null.</exception>
         /// <returns>The fluent syntax;</returns>
@@ -89,7 +104,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// Indicates that the service should be bound to a WCF service channel using the given binding and the endpoint declared in the Web.config or App.config file.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;T&gt;().</param>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <param name="binding">The <see cref="T:System.ServiceModel.Channels.Binding"/> used to configure the endpoint.</param>
         /// <param name="remoteAddress">The address that provides the location of the service.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="binding"/> or <paramref name="remoteAddress"/> is null.</exception>
@@ -111,7 +126,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// Indicates that the service should be bound to a WCF service channel using the given binding and the endpoint declared in the Web.config or App.config file.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;T&gt;().</param>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <param name="binding">The <see cref="T:System.ServiceModel.Channels.Binding"/> used to configure the endpoint.</param>
         /// <param name="remoteAddress">The <see cref="T:System.ServiceModel.EndpointAddress"/> that provides the location of the service.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="binding"/> or <paramref name="remoteAddress"/> is null.</exception>
@@ -133,7 +148,7 @@ namespace Ninject.Extensions.Wcf.Client
         /// Indicates that the service should be bound to a WCF service channel using the given binding and the endpoint declared in the Web.config or App.config file.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;T&gt;().</param>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
         /// <param name="endpoint">The <see cref="T:System.ServiceModel.Description.ServiceEndpoint"/> for the channels produced by the factory.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="endpoint"/> is null.</exception>
         /// <returns>The fluent syntax;</returns>

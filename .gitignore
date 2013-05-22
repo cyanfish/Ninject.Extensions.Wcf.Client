@@ -8,3 +8,4 @@ build
 *resharper*
 *.user
 /src/packages
+*.licenseheader
