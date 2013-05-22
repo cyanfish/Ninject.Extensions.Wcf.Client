@@ -20,9 +20,7 @@ namespace Ninject.Extensions.Wcf.Client
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax)
         {
-            BindChannelFactory(bindingSyntax, null, null, null, null, null);
-            return BindChannel(bindingSyntax, x => !x.Has("binding") && !x.Has("endpoint")
-                                                   && !x.Has("endpointConfigurationName") && !x.Has("remoteAddress"));
+            return ToServiceChannel(bindingSyntax, "*");
         }
 
         /// <summary>
