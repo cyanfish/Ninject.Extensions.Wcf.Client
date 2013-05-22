@@ -1,4 +1,3 @@
-ninjectwcfclient
+Ninject Extensions for WCF Clients
 ================
 
-Ninject extensions for WCF clients
