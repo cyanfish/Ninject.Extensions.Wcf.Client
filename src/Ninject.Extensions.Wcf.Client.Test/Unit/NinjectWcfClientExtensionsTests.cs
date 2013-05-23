@@ -40,13 +40,6 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
             AssertChannelBindingResolved<IMockInterface1>();
         }
 
-        [Test]
-        public void ToServiceChannel_NoArguments_ResolvesFactoryBinding()
-        {
-            kernel.Bind<IMockInterface1>().ToServiceChannel();
-            AssertChannelFactoryBindingResolved<IMockInterface1>(42, "http://localhost/TestService1.svc");
-        }
-
         #endregion
 
         #region ToServiceChannel(string) tests
@@ -56,13 +49,6 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
         {
             kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1");
             AssertChannelBindingResolved<IMockInterface1>();
-        }
-
-        [Test]
-        public void ToServiceChannel_ExistingConfigName_ResolvesFactoryBinding()
-        {
-            kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1");
-            AssertChannelFactoryBindingResolved<IMockInterface1>(42, "http://localhost/TestService1.svc");
         }
 
         [Test]
@@ -89,13 +75,6 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
         {
             kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1", "http://localhost/TestService2.svc");
             AssertChannelBindingResolved<IMockInterface1>();
-        }
-
-        [Test]
-        public void ToServiceChannel_ExistingConfigNameAndValidAddressString_ResolvesFactoryBinding()
-        {
-            kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1", "http://localhost/TestService2.svc");
-            AssertChannelFactoryBindingResolved<IMockInterface1>(42, "http://localhost/TestService2.svc");
         }
 
         [Test]
@@ -132,13 +111,6 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
         }
 
         [Test]
-        public void ToServiceChannel_ExistingConfigNameAndValidEndpointAddress_ResolvesFactoryBinding()
-        {
-            kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1", new EndpointAddress("http://localhost/TestService2.svc"));
-            AssertChannelFactoryBindingResolved<IMockInterface1>(42, "http://localhost/TestService2.svc");
-        }
-
-        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void ToServiceChannel_NonExistingConfigNameAndValidEndpointAddress_Throws()
         {
@@ -172,13 +144,6 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
         }
 
         [Test]
-        public void ToServiceChannel_SpecifiedChannelBindingAndValidAddressString_ResolvesFactoryBinding()
-        {
-            kernel.Bind<IMockInterface1>().ToServiceChannel(new BasicHttpBinding { OpenTimeout = TimeSpan.FromSeconds(43) }, "http://localhost/TestService2.svc");
-            AssertChannelFactoryBindingResolved<IMockInterface1>(43, "http://localhost/TestService2.svc");
-        }
-
-        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ToServiceChannel_NullChannelBindingAndValidAddressString_Throws()
         {
@@ -204,13 +169,6 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
         }
 
         [Test]
-        public void ToServiceChannel_SpecifiedChannelBindingAndValidEndpointAddress_ResolvesFactoryBinding()
-        {
-            kernel.Bind<IMockInterface1>().ToServiceChannel(new BasicHttpBinding { OpenTimeout = TimeSpan.FromSeconds(43) }, new EndpointAddress("http://localhost/TestService2.svc"));
-            AssertChannelFactoryBindingResolved<IMockInterface1>(43, "http://localhost/TestService2.svc");
-        }
-
-        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ToServiceChannel_NullChannelBindingAndValidEndpointAddress_Throws()
         {
@@ -226,6 +184,27 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
 
         #endregion
 
+        #region Common tests
+
+        [Test]
+        public void ToServiceChannel_MultipleOverloadUse_ResolvesFactoryUnambiguously()
+        {
+            kernel.Bind<IMockInterface1>().ToServiceChannel().Named("1");
+            kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1").Named("2");
+            kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1", "http://localhost/TestService1.svc").Named("3");
+            kernel.Bind<IMockInterface1>().ToServiceChannel("TestEndpoint1", new EndpointAddress("http://localhost/TestService1.svc")).Named("4");
+            kernel.Bind<IMockInterface1>().ToServiceChannel(new BasicHttpBinding { OpenTimeout = TimeSpan.FromSeconds(42) }, "http://localhost/TestService1.svc").Named("5");
+            kernel.Bind<IMockInterface1>().ToServiceChannel(new BasicHttpBinding { OpenTimeout = TimeSpan.FromSeconds(42) }, new EndpointAddress("http://localhost/TestService1.svc")).Named("6");
+
+            AssertChannelBindingResolved<IMockInterface1>("1");
+            AssertChannelBindingResolved<IMockInterface1>("2");
+            AssertChannelBindingResolved<IMockInterface1>("3");
+            AssertChannelBindingResolved<IMockInterface1>("4");
+            AssertChannelBindingResolved<IMockInterface1>("5");
+            AssertChannelBindingResolved<IMockInterface1>("6");
+        }
+
+        #endregion
 
         #region Helpers
 
@@ -235,11 +214,10 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
             Assert.That(result, Is.InstanceOf<IClientChannel>());
         }
 
-        private void AssertChannelFactoryBindingResolved<T>(int openTimeoutSeconds, string endpointAddress)
+        private void AssertChannelBindingResolved<T>(string name)
         {
-            var result = kernel.Get<ChannelFactory<T>>();
-            Assert.That(result.Endpoint.Binding.OpenTimeout.TotalSeconds, Is.EqualTo(openTimeoutSeconds));
-            Assert.That(result.Endpoint.Address.Uri.ToString(), Is.EqualTo(endpointAddress));
+            var result = kernel.Get<T>(name);
+            Assert.That(result, Is.InstanceOf<IClientChannel>());
         }
 
         #endregion

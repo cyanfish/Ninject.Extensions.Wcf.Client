@@ -16,9 +16,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using Ninject.Activation;
+using Ninject.Parameters;
 using Ninject.Planning.Bindings;
+using Ninject.Planning.Targets;
 using Ninject.Syntax;
 using Binding = System.ServiceModel.Channels.Binding;
 
@@ -52,10 +56,7 @@ namespace Ninject.Extensions.Wcf.Client
         {
             ThrowIfNull(endpointConfigurationName, "endpointConfigurationName");
 
-            BindChannelFactory(bindingSyntax, null, null, endpointConfigurationName, null, null);
-            return BindChannel(bindingSyntax,
-                               x => x.Get<string>("endpointConfigurationName") == endpointConfigurationName
-                                    && !x.Has("remoteAddress"));
+            return BindChannel(bindingSyntax, () => new ChannelFactory<TContract>(endpointConfigurationName));
         }
 
         /// <summary>
@@ -71,8 +72,10 @@ namespace Ninject.Extensions.Wcf.Client
             this IBindingToSyntax<TContract> bindingSyntax,
             string endpointConfigurationName, string remoteAddress) where TContract : class
         {
+            ThrowIfNull(endpointConfigurationName, "endpointConfigurationName");
             ThrowIfNull(remoteAddress, "remoteAddress");
-            return ToServiceChannel(bindingSyntax, endpointConfigurationName, new EndpointAddress(remoteAddress));
+
+            return BindChannel(bindingSyntax, () => new ChannelFactory<TContract>(endpointConfigurationName, new EndpointAddress(remoteAddress)));
         }
 
         /// <summary>
@@ -91,10 +94,7 @@ namespace Ninject.Extensions.Wcf.Client
             ThrowIfNull(endpointConfigurationName, "endpointConfigurationName");
             ThrowIfNull(remoteAddress, "remoteAddress");
 
-            BindChannelFactory(bindingSyntax, null, null, endpointConfigurationName, remoteAddress, null);
-            return BindChannel(bindingSyntax,
-                               x => x.Get<string>("endpointConfigurationName") == endpointConfigurationName
-                                    && ReferenceEquals(x.Get<object>("remoteAddress"), remoteAddress));
+            return BindChannel(bindingSyntax, () => new ChannelFactory<TContract>(endpointConfigurationName, remoteAddress));
         }
 
         /// <summary>
@@ -113,10 +113,7 @@ namespace Ninject.Extensions.Wcf.Client
             ThrowIfNull(binding, "binding");
             ThrowIfNull(remoteAddress, "remoteAddress");
 
-            BindChannelFactory(bindingSyntax, binding, null, null, null, remoteAddress);
-            return BindChannel(bindingSyntax,
-                               x => x.Get<Binding>("binding") == binding
-                                    && ReferenceEquals(x.Get<object>("remoteAddress"), remoteAddress));
+            return BindChannel(bindingSyntax, () => new ChannelFactory<TContract>(binding, new EndpointAddress(remoteAddress)));
         }
 
         /// <summary>
@@ -135,38 +132,14 @@ namespace Ninject.Extensions.Wcf.Client
             ThrowIfNull(binding, "binding");
             ThrowIfNull(remoteAddress, "remoteAddress");
 
-            BindChannelFactory(bindingSyntax, binding, null, null, remoteAddress, null);
-            return BindChannel(bindingSyntax,
-                               x => x.Get<Binding>("binding") == binding
-                                    && ReferenceEquals(x.Get<object>("remoteAddress"), remoteAddress));
+            return BindChannel(bindingSyntax, () => new ChannelFactory<TContract>(binding, remoteAddress));
         }
 
         private static IBindingWhenInNamedWithOrOnSyntax<TContract> BindChannel<TContract>(
-            IBindingToSyntax<TContract> bindingSyntax, Func<IBindingMetadata, bool> constraint) where TContract : class
+            IBindingToSyntax<TContract> bindingSyntax, Func<ChannelFactory<TContract>> factoryFactory) where TContract : class
         {
-            return bindingSyntax.ToMethod(x => bindingSyntax.Kernel.Get<ChannelFactory<TContract>>(constraint).CreateChannel());
-        }
-
-        private static void BindChannelFactory<TContract>(IBindingToSyntax<TContract> bindingSyntax, Binding binding,
-                                                          ServiceEndpoint endpoint, string endpointConfigurationName,
-                                                          EndpointAddress remoteAddress, string remoteAddressStr) where TContract : class
-        {
-            var factoryBinding = bindingSyntax.Kernel.Bind<ChannelFactory<TContract>>().ToSelf().InSingletonScope();
-            AddParam(factoryBinding, "binding", binding);
-            AddParam(factoryBinding, "endpoint", endpoint);
-            AddParam(factoryBinding, "endpointConfigurationName", endpointConfigurationName);
-            AddParam(factoryBinding, "remoteAddress", remoteAddress);
-            AddParam(factoryBinding, "remoteAddress", remoteAddressStr);
-        }
-
-        private static void AddParam<TContract>(IBindingNamedWithOrOnSyntax<ChannelFactory<TContract>> factoryBinding,
-                                                string paramName, object paramValue) where TContract : class
-        {
-            if (paramValue != null)
-            {
-                factoryBinding.WithMetadata(paramName, paramValue);
-                factoryBinding.WithConstructorArgument(paramName, paramValue);
-            }
+            var lazyFactory = new Lazy<ChannelFactory<TContract>>(factoryFactory);
+            return bindingSyntax.ToMethod(x => lazyFactory.Value.CreateChannel());
         }
 
         private static void ThrowIfNull(object param, string paramName)
