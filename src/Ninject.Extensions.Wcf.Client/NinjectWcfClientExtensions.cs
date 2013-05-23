@@ -69,6 +69,23 @@ namespace Ninject.Extensions.Wcf.Client
         /// <returns>The fluent syntax;</returns>
         public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
             this IBindingToSyntax<TContract> bindingSyntax,
+            string endpointConfigurationName, string remoteAddress) where TContract : class
+        {
+            ThrowIfNull(remoteAddress, "remoteAddress");
+            return ToServiceChannel(bindingSyntax, endpointConfigurationName, new EndpointAddress(remoteAddress));
+        }
+
+        /// <summary>
+        /// Indicates that the service should be bound to a WCF service channel using given endpoint address and the binding of the endpoint declared in the Web.config or App.config file with the given name.
+        /// </summary>
+        /// <typeparam name="TContract">The service contract interface type.</typeparam>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
+        /// <param name="endpointConfigurationName">The configuration name used for the endpoint.</param>
+        /// <param name="remoteAddress">The <see cref="T:System.ServiceModel.EndpointAddress"/> that provides the location of the service.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="endpointConfigurationName"/> or <paramref name="remoteAddress"/> is null.</exception>
+        /// <returns>The fluent syntax;</returns>
+        public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
+            this IBindingToSyntax<TContract> bindingSyntax,
             string endpointConfigurationName, EndpointAddress remoteAddress) where TContract : class
         {
             ThrowIfNull(endpointConfigurationName, "endpointConfigurationName");
@@ -78,26 +95,6 @@ namespace Ninject.Extensions.Wcf.Client
             return BindChannel(bindingSyntax,
                                x => x.Get<string>("endpointConfigurationName") == endpointConfigurationName
                                     && ReferenceEquals(x.Get<object>("remoteAddress"), remoteAddress));
-        }
-
-        /// <summary>
-        /// Indicates that the service should be bound to a WCF service channel using the given binding and the endpoint declared in the Web.config or App.config file.
-        /// </summary>
-        /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
-        /// <param name="binding">The <see cref="T:System.ServiceModel.Channels.Binding"/> used to configure the endpoint.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="binding"/> is null.</exception>
-        /// <returns>The fluent syntax;</returns>
-        public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
-            this IBindingToSyntax<TContract> bindingSyntax,
-            Binding binding) where TContract : class
-        {
-            ThrowIfNull(binding, "binding");
-
-            BindChannelFactory(bindingSyntax, binding, null, null, null, null);
-            return BindChannel(bindingSyntax,
-                               x => x.Get<Binding>("binding") == binding
-                                    && !x.Has("remoteAddress"));
         }
 
         /// <summary>
@@ -142,25 +139,6 @@ namespace Ninject.Extensions.Wcf.Client
             return BindChannel(bindingSyntax,
                                x => x.Get<Binding>("binding") == binding
                                     && ReferenceEquals(x.Get<object>("remoteAddress"), remoteAddress));
-        }
-
-        /// <summary>
-        /// Indicates that the service should be bound to a WCF service channel using the given binding and the endpoint declared in the Web.config or App.config file.
-        /// </summary>
-        /// <typeparam name="TContract">The service contract interface type.</typeparam>
-        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
-        /// <param name="endpoint">The <see cref="T:System.ServiceModel.Description.ServiceEndpoint"/> for the channels produced by the factory.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="endpoint"/> is null.</exception>
-        /// <returns>The fluent syntax;</returns>
-        public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
-            this IBindingToSyntax<TContract> bindingSyntax,
-            ServiceEndpoint endpoint) where TContract : class
-        {
-            ThrowIfNull(endpoint, "endpoint");
-
-            BindChannelFactory(bindingSyntax, null, endpoint, null, null, null);
-            return BindChannel(bindingSyntax,
-                               x => x.Get<ServiceEndpoint>("endpoint") == endpoint);
         }
 
         private static IBindingWhenInNamedWithOrOnSyntax<TContract> BindChannel<TContract>(
