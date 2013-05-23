@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mock\MockInterfaces.cs" />
+    <Compile Include="Mock\IMockInterface1.cs" />
     <Compile Include="Unit\NinjectWcfClientExtensionsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
