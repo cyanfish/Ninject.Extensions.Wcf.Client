@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Ninject.Extensions.Wcf.Client</id>
+    <version>1.0.0.0</version>
+    <title>Ninject Extensions for WCF Clients</title>
+    <authors>Ben Olden-Cooligan</authors>
+    <licenseUrl>https://raw.github.com/cyanfish/Ninject.Extensions.Wcf.Client/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/cyanfish/ninject.extensions.wcf.client</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Client bindings for WCF Services</description>
+    <dependencies>
+      <dependency id="Ninject" version="[3,4)" />
+    </dependencies>
+  </metadata>
+</package>

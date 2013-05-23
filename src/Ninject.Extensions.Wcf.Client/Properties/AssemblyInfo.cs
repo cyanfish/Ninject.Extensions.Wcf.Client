@@ -14,7 +14,6 @@
 // limitations under the License.
 // 
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -23,9 +22,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Ninject.Extensions.Wcf.Client")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Ben Olden-Cooligan")]
 [assembly: AssemblyProduct("Ninject.Extensions.Wcf.Client")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright © Ben Olden-Cooligan 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -10,3 +10,4 @@ build
 /src/packages
 *.licenseheader
 *TestResult.xml
+*.nupkg
