@@ -40,9 +40,9 @@ namespace SampleWcfClient
 
         private void Run()
         {
-            // Method calls on IService1 are executed through the WCF service channel
+            // Method calls on service1 are executed through the WCF service channel
             Console.WriteLine(service1.GetData(10));
-            Console.WriteLine(service1.GetDataUsingDataContract(new CompositeType { BoolValue = true, StringValue = "Hello world!" }));
+            Console.WriteLine(service1.GetDataUsingDataContract(new CompositeType { BoolValue = true, StringValue = "Hello world!" }).StringValue);
 
             // Service channels aren't meant to last very long - once you're done with them, you should dispose them.
             // If they aren't disposed, they will timeout after a while.

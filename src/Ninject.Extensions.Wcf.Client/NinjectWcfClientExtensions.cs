@@ -16,13 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.ServiceModel;
-using System.ServiceModel.Description;
-using Ninject.Activation;
-using Ninject.Parameters;
-using Ninject.Planning.Bindings;
-using Ninject.Planning.Targets;
 using Ninject.Syntax;
 using Binding = System.ServiceModel.Channels.Binding;
 
@@ -138,6 +132,7 @@ namespace Ninject.Extensions.Wcf.Client
         private static IBindingWhenInNamedWithOrOnSyntax<TContract> BindChannel<TContract>(
             IBindingToSyntax<TContract> bindingSyntax, Func<ChannelFactory<TContract>> factoryFactory) where TContract : class
         {
+            // Don't create the ChannelFactory at binding time, since it's an expensive operation
             var lazyFactory = new Lazy<ChannelFactory<TContract>>(factoryFactory);
             return bindingSyntax.ToMethod(x => lazyFactory.Value.CreateChannel());
         }
