@@ -1,7 +1,7 @@
 Ninject Extensions for WCF Clients
 ================
 
-Tired of Service References? Want to use dependency injection (IoC)? Ninject Extensions for WCF Clients lets you bind your service interfaces to a WCF service with a single line of code for each interface.
+Tired of Service References? Want to use dependency injection (IoC)? Ninject Extensions for WCF Clients lets you bind your service interfaces to a WCF service channel with a single line of code for each interface.
 
 Usage
 =
