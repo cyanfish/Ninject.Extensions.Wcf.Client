@@ -7,7 +7,7 @@ Usage
 =
 
 1. If you haven't already, add [Ninject](http://www.ninject.org/) to your client project.
-2. Reference Ninject.Extensions.Wcf.Client in your client project. Available on [Nuget]().
+2. Reference Ninject.Extensions.Wcf.Client in your client project. Available on [Nuget](https://nuget.org/packages/Ninject.Extensions.Wcf.Client/).
 3. Ensure your service contracts (interfaces only) and data contracts (interfaces and implementations) are in a library referenced by both your client and server projects.
 4. Ensure your client's Web.config or App.config has an [endpoint](http://msdn.microsoft.com/en-us/library/ms731144.aspx) for each service.
 5. Add the following code to your client's [NinjectModule](https://github.com/ninject/ninject/wiki/Modules-and-the-Kernel):
