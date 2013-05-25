@@ -16,8 +16,8 @@ Usage
         
         ...
         
-        Bind<IMyService1>.ToServiceChannel();
-        Bind<IMyService2>.ToServiceChannel();
+        Bind<IMyService1>().ToServiceChannel();
+        Bind<IMyService2>().ToServiceChannel();
 
 6. Consume the service:
 
