@@ -1,10 +1,8 @@
-Ninject Extensions for WCF Clients
-================
+# Ninject Extensions for WCF Clients
 
 Tired of Service References? Want to use dependency injection (IoC)? Ninject Extensions for WCF Clients lets you bind your service interfaces to a WCF service channel with a single line of code for each interface.
 
-Usage
-=
+## Usage
 
 1. If you haven't already, add [Ninject](http://www.ninject.org/) to your client project.
 2. Reference Ninject.Extensions.Wcf.Client in your client project. Available on [Nuget](https://nuget.org/packages/Ninject.Extensions.Wcf.Client/).
@@ -33,8 +31,7 @@ Usage
 
 And that's it! No Service References required. Have a look at the [example projects](https://github.com/cyanfish/ninject.extensions.wcf.client/tree/master/src/Examples) if you like.
 
-Notes
-=
+## Notes
 
 - If your client is a web project, preferably use [InRequestScope](https://github.com/ninject/Ninject.Web.Common/wiki/InRequestScope):
 
@@ -50,3 +47,7 @@ Notes
         Bind<IMyService1>().ToServiceChannel("IMyService1_BasicHttpBinding");
         
   Similarly, you can use other overloads to programmatically specify an endpoint.
+  
+## More Information
+
+- [Wiki Pages](https://github.com/cyanfish/Ninject.Extensions.Wcf.Client/wiki/_pages)
