@@ -38,15 +38,15 @@ Notes
 
 - If your client is a web project, preferably use [InRequestScope](https://github.com/ninject/Ninject.Web.Common/wiki/InRequestScope):
 
-        Bind<IMyService1>.ToServiceChannel().InRequestScope();
+        Bind<IMyService1>().ToServiceChannel().InRequestScope();
 
 - The channel object returned when Ninject resolves a service interface is NOT thread-safe, and will eventually timeout:
 
         // DO NOT DO THIS
-        Bind<IMyService1>.ToServiceChannel().InSingletonScope(); // VERY BAD IDEA
+        Bind<IMyService1>().ToServiceChannel().InSingletonScope(); // VERY BAD IDEA
 
 - If you have multiple endpoints in your Web.config or App.config for the same service contract, you can bind by name:
 
-        Bind<IMyService1>.ToServiceChannel("IMyService1_BasicHttpBinding");
+        Bind<IMyService1>().ToServiceChannel("IMyService1_BasicHttpBinding");
         
   Similarly, you can use other overloads to programmatically specify an endpoint.
