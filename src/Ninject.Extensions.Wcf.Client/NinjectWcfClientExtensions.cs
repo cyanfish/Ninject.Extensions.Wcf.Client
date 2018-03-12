@@ -54,6 +54,24 @@ namespace Ninject.Extensions.Wcf.Client
         }
 
         /// <summary>
+        /// Indicates that the service should be bound to a WCF service channel using the endpoint declared in the Web.config or App.config.
+        /// Endpoint name will be resolved at runtime.
+        /// </summary>
+        /// <typeparam name="TContract">The service contract interface type.</typeparam>
+        /// <param name="bindingSyntax">The result from Bind&lt;TContract&gt;().</param>
+        /// <param name="endpointConfigurationNameProvider">Delegate used to resolve endpoint.</param>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="endpointConfigurationNameProvider"/> is null.</exception>
+        /// <returns>The fluent syntax;</returns>
+        public static IBindingWhenInNamedWithOrOnSyntax<TContract> ToServiceChannel<TContract>(
+            this IBindingToSyntax<TContract> bindingSyntax,
+            Func<string> endpointConfigurationNameProvider) where TContract : class
+        {
+            ThrowIfNull(endpointConfigurationNameProvider, "endpointConfigurationNameProvider");
+
+            return BindChannel(bindingSyntax, () => new ChannelFactory<TContract>(endpointConfigurationNameProvider()));
+        }
+
+        /// <summary>
         /// Indicates that the service should be bound to a WCF service channel using given endpoint address and the binding of the endpoint declared in the Web.config or App.config file with the given name.
         /// </summary>
         /// <typeparam name="TContract">The service contract interface type.</typeparam>
