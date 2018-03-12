@@ -82,6 +82,24 @@ namespace Ninject.Extensions.Wcf.Client.Test.Unit
 
         #endregion
 
+        #region ToServiceChannel(Func<string>) tests
+
+        [Test]
+        public void ToServiceChannel_ExistingConfigNameProvidedByFunc_ResolvesBinding()
+        {
+            kernel.Bind<IMockInterface1>().ToServiceChannel(() => "TestEndpoint1");
+            AssertChannelBindingResolved<IMockInterface1>();
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ToServiceChannel_NullConfigNameProvider_Throws()
+        {
+            kernel.Bind<IMockInterface1>().ToServiceChannel(endpointConfigurationNameProvider: null);
+        }
+
+        #endregion
+
         #region ToServiceChannel(string, string) tests
 
         [Test]
